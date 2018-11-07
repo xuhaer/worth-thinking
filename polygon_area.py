@@ -8,7 +8,7 @@ def polygon_area(P):
     P.append(P[0])
     S = 0
     for i in range(0, n):
-        x1,y1 = P[i]
-        x2,y2 = P[i + 1]
+        x1, y1 = P[i]
+        x2, y2 = P[i + 1]
         S = S + (x1 + x2) * (y2 - y1)
     return 0.5 * abs(S)
