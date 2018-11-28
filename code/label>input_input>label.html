@@ -1,0 +1,72 @@
+<html>
+    <head>
+<style type="text/css">
+div {
+  display: inline-block;
+  position: relative;
+}
+label {
+  background: #fcb608;
+  padding: 2px 10px 2px 1.5em;
+  border: 1px solid transparent; /* keeps layout from jumping */
+}
+input {
+  position: absolute;
+}
+input[type="radio"]:checked + label {
+  background: #000;
+  border-color: green;
+  color: white;
+}
+
+
+/* label_input */
+form.label {
+  background: #fcb608;
+  padding: 2px 10px 2px 0;
+  border: 1px solid transparent; /* keeps layout from jumping */
+}
+form.label.checked {
+  background: #000;
+  border-color: green;
+  color: white;
+}
+</style>
+</head>
+
+<body>
+    <h2>label in input</h2>
+    <div class="input_label">
+        <input id="id1" type="radio" name="ad_caroserie" value="0"><label for="id1" class="radio">Berlina</label>
+        </div>
+        <div>
+        <input id="id2" type="radio" name="ad_caroserie" value="1"><label for="id2" class="radio">Break</label>
+        </div>
+        <div>
+        <input id="id3" type="radio" name="ad_caroserie" value="2"><label for="id3" class="radio">Cabrio</label>
+    </div>
+
+    <h2>input in label</h2>
+    <div class="label_input"></div>
+        <form>
+            <label class="radio"><input type="radio" name="ad_caroserie" value="0">Berlina</label>
+            <label class="radio"><input type="radio" name="ad_caroserie" value="1">Break</label>
+            <label class="radio"><input type="radio" name="ad_caroserie" value="2">Cabrio</label>
+          </form>
+</body>
+<script>
+let form = document.querySelector( "form" );
+form.addEventListener( "change", ( evt ) => {
+  let trg = evt.target,
+      trg_par = trg.parentElement;
+  if ( trg.type === "radio" && trg_par && trg_par.tagName.toLowerCase() === "label" ) {
+    let prior = form.querySelector( 'label.checked input[name="' + trg.name + '"]' );
+    if ( prior ) {
+      prior.parentElement.classList.remove( "checked" );
+    }
+    trg_par.classList.add( "checked" );
+  }
+}, false );
+</script>
+
+</html>
