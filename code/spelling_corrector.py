@@ -5,12 +5,16 @@
 import re
 from collections import Counter
 
+import requests
+
 
 def words(text):
     return re.findall(r'\w+', text.lower())
 
 
-WORDS = Counter(words(open('big.txt').read()))
+response = requests.get('http://norvig.com/big.txt')
+big_words = response.text
+WORDS = Counter(words(big_words))
 
 
 def P(word, N=sum(WORDS.values())):
@@ -18,18 +22,18 @@ def P(word, N=sum(WORDS.values())):
     return WORDS[word] / N
 
 
-def correction(word): 
+def correction(word):
     "Most probable spelling correction for word."
     return max(candidates(word), key=P)
 
 
-def candidates(word): 
+def candidates(word):
     """Generate possible spelling corrections for word.
     （1）如果word是文本库现有的词，说明该词拼写正确，直接返回这个词；
     （2）如果word不是现有的词，则返回"编辑距离"为1的词之中，在文本库出现频率最高的那个词；
     （3）如果"编辑距离"为1的词，都不是文本库现有的词，则返回"编辑距离"为2的词中，出现频率最高的那个词；
     （4）如果上述三条规则，都无法得到结果，则直接返回word。"""
-    return (known([word]) or known(edits1(word)) or known(edits2(word)) or [word])
+    return known([word]) or known(edits1(word)) or known(edits2(word)) or [word]
 
 
 def known(words):
@@ -50,3 +54,6 @@ def edits1(word):
 def edits2(word):
     "All edits that are two edits away from `word`."
     return (e2 for e1 in edits1(word) for e2 in edits1(e1))
+
+if __name__ == "__main__":
+    print(correction('speling'))
